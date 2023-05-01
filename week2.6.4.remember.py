@@ -1,27 +1,36 @@
-# region remember - this 2
 from PIL import Image
 
+# region remember - this 2
 
 def decode_message(path):
-    # Read the image from file
+    """
+    Decode a message hidden in a black and white image.
+
+    Args: path (str): The file path to the image.
+
+    Returns: str: The decoded message.
+    """
+    # Read
     img = Image.open(path)
 
-    # Get the width and height of the image
     width, height = img.size
 
-    # Iterate over each column of the image
-    message = ""
-    for x in range(width):
-        # Find the row number where the black pixel is located
-        for y in range(height):
-            pixel = img.getpixel((x, y))
-            if pixel == (0, 0, 0):  # black pixel found
-                # Convert the row number to its corresponding character
-                char = chr(y)
-                message += char
-                break  # move to next column
+    # Find the row number where the black pixel is located in each column
+    message_chars = [chr(row) for col in range(width) for row in range(height) if img.getpixel((col, row)) == (0, 0, 0)]
+
+    # Concatenate the characters to form the message
+    message = "".join(message_chars)
 
     return message
 
-
 # endregion
+
+def main():
+    # Example
+    path = "image.png"
+    message = decode_message(path)
+    print(f"Decoded message: {message}")
+
+
+if __name__ == "__main__":
+    main()
