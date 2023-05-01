@@ -1,6 +1,3 @@
-import time
-
-
 # region runer - this 2000
 
 import time
